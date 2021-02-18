@@ -28,19 +28,22 @@ BINDIR     = ../Bin_and_Data
 
 GCCINC += -I$(SRCDIR) -I$(HASHDIR) -I$(LETTERFUNCDIR) -I$(SGMLDIR)
 
-CC=g++ -Og -g -Wall -pedantic -DNDEBUG 
+CC=g++ -Og -g -Wall -pedantic -DNDEBUG
 
 # -fPIC or -fpic: enable 'position independent code' generation. Necessary for shared libs
 # -fpic may generate smaller and faster code, but will have platform-dependent limitations
 PIC=-fPIC
 #PIC=
 
-CCLINKSTATIC=g++ -static -fPIC
+CCLINKSTATIC=g++ -fPIC
 CCLINKDYNAMIC=g++ -fPIC
-CCCREATELIB=g++ -fPIC -shared -Wl,-soname,$(SONAME)
+CCCREATELIB=g++ -fPIC -shared -Wl,-install_name,$(SONAME)
+# todo see if can just remove `install_name` was `soname` before
 RM=rm -f
 
 include config.mak
+
+# also had to mkdir ../Bin_and_Data
 
 CSTTAGGERSRC= \
 	main.cpp

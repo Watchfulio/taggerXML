@@ -1,10 +1,10 @@
 /* Copyright @ 1993 MIT and University of Pennsylvania */
 /* Written by Eric Brill */
-/*THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS 
-OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not 
-limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF 
-MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF 
-THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY 
+/*THIS SOFTWARE IS PROVIDED "AS IS", AND M.I.T. MAKES NO REPRESENTATIONS
+OR WARRANTIES, EXPRESS OR IMPLIED.  By way of example, but not
+limitation, M.I.T. MAKES NO REPRESENTATIONS OR WARRANTIES OF
+MERCHANTABILITY OR FITNESS FOR ANY PARTICULAR PURPOSE OR THAT THE USE OF
+THE LICENSED SOFTWARE OR DOCUMENTATION WILL NOT INFRINGE ANY THIRD PARTY
 PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 
 /* Adapted by Bart Jongejan. (Conversion to Standard C and more.) */
@@ -50,7 +50,7 @@ static const char * Lexicalrulefile;
 static const char * Contextualrulefile;
 static bool START_ONLY_FLAG;
 static bool FINAL_ONLY_FLAG;
-static char * wdlistname; 
+static char * wdlistname;
 
 static int corpussize;
 static int linenums;
@@ -123,7 +123,7 @@ bool createRegistries
     Registry words;
 #endif
 #else
-    if (! START_ONLY_FLAG) 
+    if (! START_ONLY_FLAG)
 #endif
         {
         lexicon = fopen(Lexicon,"r");
@@ -132,9 +132,9 @@ bool createRegistries
             fprintf(stderr,"Cannot open lexicon \"%s\" for reading\n",Lexicon);
             exit(1);
             }
-        while(fgets(line,sizeof(line),lexicon) != NULL) 
+        while(fgets(line,sizeof(line),lexicon) != NULL)
             {
-            if (not_just_blank(line)) 
+            if (not_just_blank(line))
                 {
                 ++linenums;
                 line[strlen(line) - 1] = '\0';
@@ -170,7 +170,7 @@ bool createRegistries
     while(fgets(line,sizeof(line),lexicon) != NULL)
     /*while(fgets(line,linelen,allowedmovefile) != NULL) */
         {/* Bart 20030415 */
-        if (not_just_blank(line)) 
+        if (not_just_blank(line))
             {
             char *word2;
             char *tag2;
@@ -181,8 +181,8 @@ bool createRegistries
     learning    can add to wordlist, while not adding to lexicon.  For
     example, if a big    untagged corpus is about to be tagged, the wordlist
     can be extended to    include words in that corpus, while the lexicon
-    remains static.    Lexicon is file of form: 
-    word t1 t2 ... tn 
+    remains static.    Lexicon is file of form:
+    word t1 t2 ... tn
     where t1 is the most likely tag for the word, and t2...tn are alternate
     tags, in no particular order. */
     /* just need word and most likely tag from lexicon (first tag entry) */
@@ -209,7 +209,7 @@ bool createRegistries
                 free(atempstr);
                 DECREMENT
                 }
-            while(*perl_split_ptr != NULL) 
+            while(*perl_split_ptr != NULL)
                 {
                 sprintf(space,"%s %s",*perl_split_ptr2,*perl_split_ptr);
                 atempstr = mystrdup(space);
@@ -218,7 +218,7 @@ bool createRegistries
                     free(atempstr);
                     DECREMENT
                     }
-                ++perl_split_ptr; 
+                ++perl_split_ptr;
                 }
             free(*perl_split_ptr2);
             free(perl_split_ptr2);
@@ -287,22 +287,22 @@ bool createRegistries
     rule_array = *RULE_ARRAY = Darray_create();
     good_right_hash = Registry_create(Registry_strcmp,Registry_strhash);
     good_left_hash = Registry_create(Registry_strcmp,Registry_strhash);
-    
+
     rulefile = fopen(Lexicalrulefile,"r");
     if(!rulefile)
         {
         fprintf(stderr,"Cannot open lexical rule file \"%s\" for reading\n",Lexicalrulefile);
         exit(1);
         }
-    while(fgets(line,sizeof(line),rulefile) != NULL) 
+    while(fgets(line,sizeof(line),rulefile) != NULL)
         {
         if (not_just_blank(line))
             {
             char * tempruleptr;
             line[strlen(line) - 1] = '\0';
             perl_split_ptr = perl_split(line);
-            Darray_addh(rule_array,perl_split_ptr);	   
-            if (strcmp(perl_split_ptr[1],"goodright") == 0) 
+            Darray_addh(rule_array,perl_split_ptr);
+            if (strcmp(perl_split_ptr[1],"goodright") == 0)
                 {
                 tempruleptr = mystrdup(perl_split_ptr[0]);
                 if(!Registry_add(good_right_hash,tempruleptr,(char *)1))
@@ -311,32 +311,32 @@ bool createRegistries
                     DECREMENT
                     }
                 }
-            else if (strcmp(perl_split_ptr[2],"fgoodright") == 0) 
+            else if (strcmp(perl_split_ptr[2],"fgoodright") == 0)
                 {
                 tempruleptr = mystrdup(perl_split_ptr[1]);
                 if(!Registry_add(good_right_hash,tempruleptr,(char *)1))
                     {
                     free(tempruleptr);
                     DECREMENT
-                    } 
+                    }
                 }
-            else if (strcmp(perl_split_ptr[1],"goodleft") == 0) 
+            else if (strcmp(perl_split_ptr[1],"goodleft") == 0)
                 {
                 tempruleptr = mystrdup(perl_split_ptr[0]);
                 if(!Registry_add(good_left_hash,tempruleptr,(char *)1))
                     {
                     free(tempruleptr);
                     DECREMENT
-                    } 
+                    }
                 }
-            else if (strcmp(perl_split_ptr[2],"fgoodleft") == 0) 
+            else if (strcmp(perl_split_ptr[2],"fgoodleft") == 0)
                 {
                 tempruleptr = mystrdup(perl_split_ptr[1]);
                 if(!Registry_add(good_left_hash,tempruleptr,(char *)1))
                     {
                     free(tempruleptr);
                     DECREMENT
-                    }  
+                    }
                 }
             }
         }
@@ -344,22 +344,22 @@ bool createRegistries
 
     /* read in bigram file */
     bigram_hash = *BIGRAM_HASH = Registry_create(Registry_strcmp,Registry_strhash);
-    
+
     bigrams = fopen(Bigrams,"r");
     if(!bigrams)
         {
         fprintf(stderr,"Cannot open bigram file \"%s\" for reading\n",Bigrams);
         exit(1);
         }
-    while(fgets(line,sizeof(line),bigrams) != NULL) 
+    while(fgets(line,sizeof(line),bigrams) != NULL)
         {
-        if (strlen(line) > 1) 
+        if (strlen(line) > 1)
             {
             char bigram1[MAXWORDLEN],bigram2[MAXWORDLEN];
             char bigram_space[MAXWORDLEN*2];
             line[strlen(line) - 1] = '\0';
             sscanf(line,"%s%s",bigram1,bigram2);
-            if (Registry_get(good_right_hash,bigram1)) 
+            if (Registry_get(good_right_hash,bigram1))
                 {
                 sprintf(bigram_space,"%s %s",bigram1,bigram2);
                 linecopy = mystrdup(bigram_space);
@@ -367,9 +367,9 @@ bool createRegistries
                     {
                     free(linecopy);
                     DECREMENT
-                    } 
+                    }
                 }
-            if (Registry_get(good_left_hash,bigram2)) 
+            if (Registry_get(good_left_hash,bigram2))
                 {
                 sprintf(bigram_space,"%s %s",bigram1,bigram2);
                 linecopy = mystrdup(bigram_space);
@@ -377,16 +377,16 @@ bool createRegistries
                     {
                     free(linecopy);
                     DECREMENT
-                    } 
+                    }
                 }
             }
         }
     fclose(bigrams);
-    
+
     freeRegistry(good_right_hash);
     freeRegistry(good_left_hash);
 
-    if (Wordlist) 
+    if (Wordlist)
         {
         int numwordentries = 0;
         wordlist = fopen(Wordlist,"r");
@@ -395,9 +395,9 @@ bool createRegistries
             fprintf(stderr,"Cannot open word lits \"%s\" for reading\n",Wordlist);
             exit(1);
             }
-        while(fgets(line,sizeof(line),wordlist) != NULL) 
+        while(fgets(line,sizeof(line),wordlist) != NULL)
             {
-            if (not_just_blank(line)) 
+            if (not_just_blank(line))
                 ++numwordentries;
             }
         fclose(wordlist);
@@ -410,9 +410,9 @@ bool createRegistries
             exit(1);
             }
         /* read in list of words */
-        while(fgets(line,sizeof(line),wordlist) != NULL) 
+        while(fgets(line,sizeof(line),wordlist) != NULL)
             {
-            if (not_just_blank(line)) 
+            if (not_just_blank(line))
                 {
                 char *word2;
                 line[strlen(line) - 1] = '\0';
@@ -421,7 +421,7 @@ bool createRegistries
                     {
                     free(word2);
                     DECREMENT
-                    } 
+                    }
                 }
             }
         fclose(wordlist);
@@ -465,7 +465,7 @@ tagger::tagger()
     corpussize = 0;
     linenums = 0;
     tagnums = 0;
-    wdlistname = NULL; 
+    wdlistname = NULL;
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
     SEENTAGGING = NULL;
@@ -497,24 +497,24 @@ bool tagger::init(
     START_ONLY_FLAG = _START_ONLY_FLAG;
     FINAL_ONLY_FLAG = _FINAL_ONLY_FLAG;
     wdlistname = _wdlistname;
-    if (  (  START_ONLY_FLAG 
+    if (  (  START_ONLY_FLAG
           && FINAL_ONLY_FLAG
-          ) 
-       || (  FINAL_ONLY_FLAG 
+          )
+       || (  FINAL_ONLY_FLAG
           && wdlistname
-          ) 
-       ) 
+          )
+       )
         {
         fprintf(stderr,"This set of options does not make sense.\n");
         return false;
         }
-        
+
 
     return createRegistries
         (
 #if RESTRICT_MOVE
 #if WITHSEENTAGGING
-        &SEENTAGGING, 
+        &SEENTAGGING,
 #endif
 #if WITHWORDS
         &WORDS,
@@ -563,7 +563,7 @@ bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
 
     hashmap::hash<strng> * tag_hash;
     tag_hash = new hashmap::hash<strng>(&strng::key,1000);
-    if(!FINAL_ONLY_FLAG) 
+    if(!FINAL_ONLY_FLAG)
         {
         corpussize = -1 + start_state_tagger
              (
@@ -605,7 +605,7 @@ bool tagger::analyse(FILE * CORPUS,FILE * fpout,optionStruct * Options)
 
 tagger::~tagger()
     {
-    for (unsigned int i = 0;i < Darray_len(RULE_ARRAY);++i) 
+    for (unsigned int i = 0;i < Darray_len(RULE_ARRAY);++i)
         {
         char ** tempstr = (char **)Darray_get(RULE_ARRAY,i);
         free(*tempstr);

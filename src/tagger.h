@@ -11,7 +11,6 @@ using namespace std;
 #else
 #include <stdio.h>
 #endif
-#include <malloc.h>
 
 /*
 #if defined __MSDOS__ || defined _WIN32			//if PC version
@@ -19,9 +18,9 @@ using namespace std;
 #define START_PROG "start-state-tagger.exe"
 #define END_PROG "final-state-tagger.exe"
 
-#else  
+#else
 
-#define START_PROG "./start-state-tagger" 
+#define START_PROG "./start-state-tagger"
 #define END_PROG "./final-state-tagger"
 
 #endif

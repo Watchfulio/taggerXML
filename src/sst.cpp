@@ -23,7 +23,6 @@ PATENTS, COPYRIGHTS, TRADEMARKS OR OTHER RIGHTS.   */
 #include <assert.h>
 #include <string.h>
 #include <fcntl.h>
-#include <malloc.h>
 #include <stdlib.h>
 #include <ctype.h>
 #include <locale.h>
@@ -644,6 +643,7 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
             if (Tok->PreTag)
                 {
                 Tok->Pos = Tok->PreTag; // assume tag from input
+                // printf("hitting main if and assuming tag from input \n");
                 }
             else if (  (tempstr = (char*)Registry_get(lexicon_hash, wrd)) != NULL
                     || (  (  heading
@@ -655,6 +655,7 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                        )
                   )
                 {
+                // printf("hitting else if and assuming tag from lexicon \n");
                 Tok->Pos = tempstr; // assume tag from lexicon
                 }
             else
@@ -664,6 +665,7 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
                 strng* found = tag_hash->find(wrd, bucket);
                 assert(found);
                 found->val();
+                // printf("hitting else and assuming tag from morphological \n");
                 Tok->Pos = found->val(); // assume tag from morphological analysis
                 }
             startOfLine = Bool_FALSE;

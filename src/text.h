@@ -17,7 +17,7 @@ using namespace std;
 #endif
 
 
-const char * 
+const char *
 #if STREAM
 copy(ostream & fp,const char * o,const char * end);
 #else
@@ -136,51 +136,51 @@ class corpus
                 return NULL;
                 }
             }
-        
+
         token * prev1(int count)
             {
             if(count <= 0 || Token[count].firstOfLine)
-                return &staart; 
+                return &staart;
             else
                 return Token + count - 1;
             }
         token * prev2(int count)
             {
             if(count <= 1 || Token[count].firstOfLine || Token[count-1].firstOfLine)
-                return &staart; 
+                return &staart;
             else
                 return Token + count - 2;
             }
         token * prevn(int n,int count)
             {
             if(count < n)
-                return &staart; 
+                return &staart;
             for(int i = 0;i < n;++i)
                 if(Token[count-i].firstOfLine)
-                    return &staart; 
+                    return &staart;
             return Token + count - n;
             }
         token * next1(int count)
             {
             if(count >= numberOfTokens - 1 || Token[count].lastOfLine)
-                return &staart; 
+                return &staart;
             else
                 return Token + count + 1;
             }
         token * next2(int count)
             {
             if(count >= numberOfTokens - 2 || Token[count].lastOfLine || Token[count+1].lastOfLine)
-                return &staart; 
+                return &staart;
             else
                 return Token + count + 2;
             }
         token * nextn(int n,int count)
             {
             if(count >= numberOfTokens - n)
-                return &staart; 
+                return &staart;
             for(int i = 0;i < n;++i)
                 if(Token[count+i].lastOfLine)
-                    return &staart; 
+                    return &staart;
             return Token + count + n;
             }
         bool getline()
@@ -247,7 +247,7 @@ class text: public corpus
 #if STREAM
             ostream & fpo
 #else
-            FILE * fpo            
+            FILE * fpo
 #endif
             );
     };

@@ -21,19 +21,38 @@ const char * token::getWord()
     }
 
 
-const char * 
+const char *
 #if STREAM
 copy(ostream & fp,const char * o,const char * end)
     {
-    for(;o < end;++o)
-        fp << *o;
+    int i = 0;
+    for(;o < end;++o) {
+        i++;
+        if (*o == '\n' || *o == '\r') {
+            fp << *o;
+            i = 0;
+        }
+    }
+
+    if (i != 0) {
+        fp << i;
+    }
     return o;
     }
 #else
 copy(FILE * fp,const char * o,const char * end)
     {
-    for(;o < end;++o)
-        fputc(*o,fp);
+    int i = 0;
+    for(;o < end;++o) {
+        i++;
+        if (*o == '\n' || *o == '\r') {
+            fputc(*o,fp);
+            i = 0;
+        }
+    }
+    if (i != 0) {
+        fprintf(fp, "%d", i);
+    }
     return o;
     }
 #endif
@@ -225,7 +244,7 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
 #ifdef COUNTOBJECTS
     ++COUNT;
 #endif
-    
+
 #if STREAM
     fpi.seekg(0,ios::end);
     long filesize = fpi.tellg();
@@ -307,75 +326,8 @@ text::text(FILE * fpi,bool FINAL_ONLY_FLAG)
                     case '\t':
                         {
                         endpos = p;
-#if ESCAPESLASH
-                        bool esc = false;
-#else
-                        int slashes = 0;
-#endif
-                        for(p = beginpos;p < endpos;++p)
-                            {
-#if ESCAPESLASH
-                            if(*p == '\\')
-                                {
-                                esc = true;
-                                }
-                            else
-                                {
-                                if(esc)
-                                    esc = false;
-                                else if(*p == '/')
-                                    {
-                                    /* a word can be pretagged by putting a slash between the */
-                                    /* word and the tag ::  The boy/NN ate . */
-                                    /* if a word is pretagged, we just spit out the pretagging */
-                                    Tok->setWord(beginpos,p,this);
-                                    Tok->setPreTagpos(p+1,endpos);
-                                    Tok->Pos = Tok->PreTag = new char[endpos - p];
-                                    strncpy(Tok->PreTag,p+1,endpos - p - 1);
-                                    Tok->PreTag[endpos - p - 1] = '\0';
-                                    tokenset = true;
-                                    p = endpos;
-                                    break;
-                                    }
-                                }
-#else
-                            if(*p == '/')
-                                {
-                                ++slashes;
-                                if(slashes == 2)
-                                    {
-                /* a word can be pretagged by putting two slashes between the */
-                /* word and the tag ::  The boy//NN ate . */
-                /* if a word is pretagged, we just spit out the pretagging */
-                                    Tok->setWord(beginpos,p-1,this);
-                                    Tok->setPreTagpos(p+1,endpos);
-                                    Tok->Pos = Tok->PreTag = new char[endpos - p];
-                                    strncpy(Tok->PreTag,p+1,endpos - p - 1);
-                                    Tok->PreTag[endpos - p - 1] = '\0';
-                                    tokenset = true;
-                                    p = endpos;
-                                    break;
-                                    }
-                                }
-                            else
-                                {
-                                if(slashes && FINAL_ONLY_FLAG)
-                                    {
-                                    Tok->setWord(beginpos,p-1,this);
-                                    Tok->setPreTagpos(p,endpos);
-                                    Tok->Pos = Tok->PreTag = new char[endpos - p + 1];
-                                    strncpy(Tok->PreTag,p,endpos - p);
-                                    Tok->PreTag[endpos - p] = '\0';
-                                    tokenset = true;
-                                    p = endpos;
-                                    break;
-                                    }
-                                slashes = 0;
-                                }
-#endif
-                            }
-                        if(!tokenset)
-                            Tok->setWord(beginpos,endpos,this);
+
+                        Tok->setWord(beginpos,endpos,this);
                         intoken = false;
                         break;
                         }
@@ -440,7 +392,7 @@ void text::printUnsorted(
 #if STREAM
                         ostream & fpo
 #else
-                        FILE * fpo            
+                        FILE * fpo
 #endif
                         )
     {
@@ -462,26 +414,35 @@ void text::printUnsorted(
             char * p = Token[k].Pos;
             if(p)
                 {
-#if STREAM
-                fpo << '/';
-#else
-                fputc('/',fpo);
-#endif
-
-                while(*p && *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r')
+                while(*p && *p != ' ' && *p != '\t' && *p != '\n' && *p != '\r') {
 #if STREAM
                     fpo << *p++;
 #else
                     fputc(*p++,fpo);
 #endif
                 }
+                } else {
+                    // this failed need to find-out why
+                // special char special-case (maybe it's using `:` as the special tag?)
+#if STREAM
+                fpo << 'X';
+#else
+                fprintf(fpo, "X");
+#endif
+                }
+
+#if STREAM
+                fpo << ' ';
+#else
+                fputc(' ',fpo);
+#endif
             }
-        o = copy(fpo,o,o+strlen(o));
+        // o = copy(fpo,o,o+strlen(o));
         }
     }
 
 
-    
+
 text::~text()
     {
     if (Hash) { Hash->deleteThings(); delete Hash; }
