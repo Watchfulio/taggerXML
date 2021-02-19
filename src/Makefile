@@ -19,9 +19,9 @@ SONAME=$(LINKERNAME).$(VERSION)
 REALNAME=$(SONAME).$(MINOR_NUMBER)
 
 SRCDIR     = .
-HASHDIR    = ../../hashmap/src
-LETTERFUNCDIR    = ../../letterfunc/src
-SGMLDIR    = ../../parsesgml/src
+HASHDIR    = ../hashmap/src
+LETTERFUNCDIR    = ../letterfunc/src
+SGMLDIR    = ../parsesgml/src
 L_DIR      = .
 LIBDIR     = .
 BINDIR     = ../Bin_and_Data
@@ -37,7 +37,7 @@ PIC=-fPIC
 
 CCLINKSTATIC=g++ -fPIC
 CCLINKDYNAMIC=g++ -fPIC
-CCCREATELIB=g++ -fPIC -shared -Wl,-install_name,$(SONAME)
+CCCREATELIB=g++ -fPIC -shared -Wl
 # todo see if can just remove `install_name` was `soname` before
 RM=rm -f
 

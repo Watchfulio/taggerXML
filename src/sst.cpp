@@ -143,6 +143,7 @@ int start_state_tagger
         const char* wrd;
         while ((wrd = Corpus->getWord()) != NULL)
             {
+            // printf("in initial corpus reading...: %s \n", wrd);
             if  (  Registry_get(lexicon_hash, wrd) == NULL
                 && (   (  !heading
                        && (  ConvertToLowerCaseIfFirstWord != 1
@@ -156,6 +157,9 @@ int start_state_tagger
                 void* bucket;
                 if (!ntot_hash->find(wrd, bucket))
                     {
+                        // if (strlen(wrd) > 256) {
+                        //     printf("big word before inserting to hash %s \n", wrd);
+                        // }
                     ntot_hash->insert(new strng(wrd, NULL), bucket);
                     }
                 }
@@ -230,6 +234,7 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
         of total memory used */
         therule2 = &therule[1];
         rulesize = 0;
+        // printf("rule2 things %d? %s \n", count, therule[1]);
         char** perl_split_ptr;
         perl_split_ptr = therule;
         while (*(++perl_split_ptr) != NULL)
@@ -509,19 +514,26 @@ YOU CAN CHANGE "NNP" and "NN" TO DIFFERENT TAGS IF APPROPRIATE.*/
             }
         else if (strcmp(therule[1], "addsuf") == 0)
             {
+
             for (count2 = 0; count2 < notokens; ++count2)
                 {
+                    // printf("in the addsuf for loop current: %d max: %d \n", count2, notokens);
+                // if (strlen(tag_array[count2]->key()) > 256) {
+                //     printf("big word during addsuf to hash %s \n", tag_array[count2]->key());
+                // }
                 if (strcmp(tag_array[count2]->val(), therule[rulesize - 1]) != 0)
                     {
                     const char* A = tag_array[count2]->key();
                     char* B = therule[0];
                     sprintf(tempstr_space, "%s%s", A, B);
+                    // printf("lalala: %s %s %s \n", A, B, (char*)tempstr_space);
                     if (Registry_get(lexicon_hash, (char*)tempstr_space) != NULL
                         || (EXTRAWDS
                             && Registry_get(wordlist_hash, (char*)tempstr_space) != NULL
                             )
                         )
                         {
+                            // printf("after registry things... \n");
                         tag_array[count2]->setVal(therule[rulesize - 1]);
                         }
                     }

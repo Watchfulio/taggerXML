@@ -13,37 +13,12 @@ This file contains linguistic resources for tagging English text as well.
 
 **Installation**
 
-* Linux:
-    1. Download (e.g. git pull) taggerXML, parsesgml, letterfunc and hashmap. If you are going to use the Makefile that comes with taggerXML, locate each of these packages in separate subdirectories under the same directory, and call these subdirectories taggerXML, parsesgml, letterfunc and hashmap, respectively.
+* Linux/Mac/Windows?:
+    1. Run 'git clone --recursive https://github.com/Watchfulio/taggerXML'
     2. Change directory to the 'taggerXML/src' directory.
-    3. Run 'make' or 'make taggerXML'. To get rid of object files, run 
+    3. Run 'make' or 'make taggerXML'. To get rid of object files, run
     4. 'make clean'.
-
-You can use https://github.com/kuhumcst/taggerXML/blob/master/doc/maketaggerXML.bash to do all of this automatically.
 
 **Running**
 
 For running the taggerXML, see Eric Brill's original documentation and https://github.com/kuhumcst/taggerXML/blob/master/doc/improvements.md
-
-**Online availability**
-
-taggerXML is demonstrated at CST's website
-(http://ada.sc.ku.dk/tools/index.php?lang=en)
-and an integrated webservice in the CLARIN-DK infrastructure
-(https://clarin.dk/).
-
-**Contact info**
-
-For questions and remarks about the program, please feel free to contact us.
-
-Our postal address is:
-
-    Center for Sprogteknologi
-    University of Copenhagen
-    Njalsgade 140
-    2300 Copenhagen S.
-    Denmark
-
-On the internet, you can visit us at [www.cst.ku.dk](http://www.cst.ku.dk)
-Here you can also try the tagger for Danish and English.
-
