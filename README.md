@@ -13,7 +13,7 @@ This file contains linguistic resources for tagging English text as well.
 
 **Installation**
 
-* Linux/Mac/Windows?:
+* Linux/Mac/ Windows(one way is chocolatey and make+mingw)?:
     1. Run 'git clone --recursive https://github.com/Watchfulio/taggerXML'
     2. Change directory to the 'taggerXML/src' directory.
     3. Run 'make' or 'make taggerXML'. To get rid of object files, run

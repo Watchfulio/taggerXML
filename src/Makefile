@@ -37,13 +37,10 @@ PIC=-fPIC
 
 CCLINKSTATIC=g++ -fPIC
 CCLINKDYNAMIC=g++ -fPIC
-CCCREATELIB=g++ -fPIC -shared -Wl
-# todo see if can just remove `install_name` was `soname` before
+CCCREATELIB=g++ -fPIC -shared -W
 RM=rm -f
 
 include config.mak
-
-# also had to mkdir ../Bin_and_Data
 
 CSTTAGGERSRC= \
 	main.cpp
