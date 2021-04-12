@@ -7,6 +7,7 @@ Version 3: handling of XML (Previously called version 1, because Brill had not d
 #define CSTTAGGERDATE "2019.11.30"
 #define CSTTAGGERCOPYRIGHT "MIT, University of Pennsylvania and Center for Sprogteknologi"
 
+#include "errno.h"
 #include "useful.h" // dupl
 #include "tagger.h"
 #include "option.h"
@@ -50,7 +51,7 @@ int main(int argc, char **argv)
         printf("\n");
         printf("CSTTAGGER version " CSTTAGGERVERSION " (" CSTTAGGERDATE ")\n");
         printf("Copyright (C) " CSTTAGGERCOPYRIGHT "\n");
-// GNU >> 
+// GNU >>
         printf("CSTTAGGER comes with ABSOLUTELY NO WARRANTY; for details use option -W.\n");
         printf("This is free software, and you are welcome to redistribute it under\n");
         printf("certain conditions; use option -r for details.\n");
@@ -76,17 +77,17 @@ int main(int argc, char **argv)
 #else
    // --i;
 #endif
-
     if(Option.Output != NULL)
         {
         if(freopen(Option.Output,"w",stdout) == NULL)
             {
-            fprintf(stderr,"Cannot reassign stdout to %s\n",Option.Output);
+            errno = 0;
+            fprintf(stderr,"Cannot reassign stdout to %s with errno %d \n", Option.Output, errno);
             return 1;
             }
         }
 
-    for(;i < argc;++i) 
+    for(;i < argc;++i)
         {
         if(argv[i][0] == '-')
             {
@@ -174,7 +175,7 @@ int main(int argc, char **argv)
         }
     theTagger.analyse(corpus,out,&Option);
 #endif
-    
+
 #if STREAM
 #else
     if(out != stdout)

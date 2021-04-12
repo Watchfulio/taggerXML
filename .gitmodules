@@ -4,6 +4,7 @@
 [submodule "letterfunc"]
 	path = letterfunc
 	url = https://github.com/kuhumcst/letterfunc.git
+	ignore = dirty
 [submodule "parsesgml"]
 	path = parsesgml
 	url = https://github.com/kuhumcst/parsesgml.git
