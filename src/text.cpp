@@ -437,6 +437,7 @@ void text::printUnsorted(
                 fputc(' ',fpo);
 #endif
             }
+	fputc('\n', fpo);
         // o = copy(fpo,o,o+strlen(o));
         }
     }
