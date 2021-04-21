@@ -28,16 +28,23 @@ BINDIR     = ../Bin_and_Data
 
 GCCINC += -I$(SRCDIR) -I$(HASHDIR) -I$(LETTERFUNCDIR) -I$(SGMLDIR)
 
-CC=g++ -Og -g -Wall -pedantic -DNDEBUG -stdlib=libc++
+ifeq ($(shell uname), Darwin)
+	MAYBE_MAC_LIBC = "-stdlib=libc++"
+else
+	MAYBE_MAC_LIBC = -v
+endif
+
+
+CC=g++ -Og -g -Wall -pedantic -DNDEBUG $(MAYBE_MAC_LIBC)
 
 # -fPIC or -fpic: enable 'position independent code' generation. Necessary for shared libs
 # -fpic may generate smaller and faster code, but will have platform-dependent limitations
 PIC=-fPIC
 #PIC=
 
-CCLINKSTATIC=g++ -fPIC -stdlib=libc++
-CCLINKDYNAMIC=g++ -fPIC -stdlib=libc++
-CCCREATELIB=g++ -fPIC -shared -W -stdlib=libc++
+CCLINKSTATIC=g++ -fPIC $(MAYBE_MAC_LIBC)
+CCLINKDYNAMIC=g++ -fPIC $(MAYBE_MAC_LIBC)
+CCCREATELIB=g++ -fPIC -shared -W $(MAYBE_MAC_LIBC)
 RM=rm -f
 
 include config.mak
