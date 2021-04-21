@@ -28,7 +28,7 @@ BINDIR     = ../Bin_and_Data
 
 GCCINC += -I$(SRCDIR) -I$(HASHDIR) -I$(LETTERFUNCDIR) -I$(SGMLDIR)
 
-CC=g++ -Og -g -Wall -pedantic -DNDEBUG
+CC=g++ -Og -g -Wall -pedantic -DNDEBUG -stdlib=libc++
 
 # -fPIC or -fpic: enable 'position independent code' generation. Necessary for shared libs
 # -fpic may generate smaller and faster code, but will have platform-dependent limitations
