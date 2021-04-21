@@ -35,9 +35,9 @@ CC=g++ -Og -g -Wall -pedantic -DNDEBUG -stdlib=libc++
 PIC=-fPIC
 #PIC=
 
-CCLINKSTATIC=g++ -fPIC
-CCLINKDYNAMIC=g++ -fPIC
-CCCREATELIB=g++ -fPIC -shared -W
+CCLINKSTATIC=g++ -fPIC -stdlib=libc++
+CCLINKDYNAMIC=g++ -fPIC -stdlib=libc++
+CCCREATELIB=g++ -fPIC -shared -W -stdlib=libc++
 RM=rm -f
 
 include config.mak
